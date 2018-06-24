@@ -2,6 +2,8 @@
 * Created by Daniel Mak
 */
 
+using System.Collections;
+using UnityEditor;
 using UnityEngine;
 
 public enum InputMode { Keyboard, Controller };
@@ -16,33 +18,39 @@ public class Movement : MonoBehaviour {
     public float shakiness = 3f;
 
     private Vector3 direction;
-    private string horizontalAxis, verticalAxis;
+    private string horizontalAxis, verticalAxis, blinkButton, fireButton;
     private bool blink;
     private float blinkTimer;
-    private Camera cam;
+    private CameraShake shaker;
     private Vector3 camOriginalPosition;
+    private ShootingComponent shooter;
 
     private void Start () {
         horizontalAxis = mode.ToString() + " Horizontal";
         verticalAxis = mode.ToString() + " Vertical";
+        blinkButton = mode.ToString() + " Blink";
+        fireButton = mode.ToString() + " Fire";
 
         blink = false;
         blinkTimer = 0f;
 
-        cam = GetComponentInChildren<Camera>();
+        shaker = GetComponentInChildren<CameraShake>();
+        shooter = GetComponent<ShootingComponent>();
     }
 	
 	private void Update () {
         if (mode == InputMode.Controller) {
-            if (Input.GetButtonDown("Boost") && !blink) {
+            if (Input.GetButtonDown(blinkButton) && !blink) {
                 print("Blink!");
 
                 // blink particle effect
-                GameObject particle = Instantiate(blinkEffect, transform.position, Quaternion.identity);
-                ParticleSystem system = particle.GetComponent<ParticleSystem>();
-                if (system != null) Destroy(particle, system.main.duration + system.main.startLifetime.Evaluate(0));
+                if (blinkEffect != null) {
+                    GameObject particle = Instantiate(blinkEffect, transform.position, Quaternion.identity);
+                    ParticleSystem system = particle.GetComponent<ParticleSystem>();
+                    if (system != null) Destroy(particle, system.main.duration + system.main.startLifetime.Evaluate(0));
 
-                camOriginalPosition = cam.transform.localPosition;
+                    StartCoroutine(shaker.CameraShaker(system.main.duration, shakiness, Time.deltaTime));
+                }
 
                 blink = true;
             }
@@ -54,21 +62,20 @@ public class Movement : MonoBehaviour {
         Vector3 velocity = (blink && blinkTimer < blinkTime) ? direction * blinkSpeed * Time.deltaTime : direction * normalSpeed * Time.deltaTime;
         transform.position += velocity;
 
+        Debug.DrawRay(transform.position, direction, Color.red);
+        if (Input.GetButtonDown(fireButton)) {
+            print("Shoot!");
+
+            shooter.Shoot(direction, 100f);
+         }
 
         if (blink) {
-
-            // cmaera shake
-            cam.transform.localPosition += new Vector3(Random.Range(-1f, 1f) * shakiness, Random.Range(-1f, 1f) * shakiness, 0);
-
             blinkTimer += Time.deltaTime;
         }
 
         if (blinkTimer > blinkTime) {
-            cam.transform.localPosition = camOriginalPosition;
-
             blink = false;
             blinkTimer = 0f;
-
         }
     }
 }
