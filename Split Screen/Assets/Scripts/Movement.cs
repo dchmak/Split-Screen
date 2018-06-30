@@ -15,7 +15,7 @@ public class Movement : MonoBehaviour {
     public float blinkSpeed = 30f;
     public float blinkTime = 0.5f;
     public GameObject blinkEffect;
-    public float shakiness = 3f;
+    public float shakiness = 0.05f;
 
     private Vector3 direction;
     private string horizontalAxis, verticalAxis, blinkButton, fireButton;
@@ -49,7 +49,7 @@ public class Movement : MonoBehaviour {
                     ParticleSystem system = particle.GetComponent<ParticleSystem>();
                     if (system != null) Destroy(particle, system.main.duration + system.main.startLifetime.Evaluate(0));
 
-                    StartCoroutine(shaker.CameraShaker(system.main.duration, shakiness, Time.deltaTime));
+                    shaker.CameraShaker(system.main.duration, shakiness, Time.deltaTime);
                 }
 
                 blink = true;
@@ -77,5 +77,14 @@ public class Movement : MonoBehaviour {
             blink = false;
             blinkTimer = 0f;
         }
+    }
+
+    private void OnValidate() {
+        name = mode.ToString() + " Player";
+
+        if (normalSpeed < 0) normalSpeed = 0;
+        if (blinkSpeed < normalSpeed) blinkSpeed = normalSpeed;
+        if (blinkTime < 0) blinkTime = 0;
+        if (shakiness < 0) shakiness = 0;
     }
 }

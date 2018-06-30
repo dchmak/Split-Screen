@@ -7,7 +7,11 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour {
 
-	public IEnumerator CameraShaker(float time, float shakiness, float interval) {
+    public void CameraShaker(float time, float shakiness, float interval) {
+        StartCoroutine(CameraShakerCoroutine(time, shakiness, interval));
+    }
+
+	private IEnumerator CameraShakerCoroutine(float time, float shakiness, float interval) {
         float timer = 0f;
 
         Vector3 camOriginalPosition = transform.localPosition;
