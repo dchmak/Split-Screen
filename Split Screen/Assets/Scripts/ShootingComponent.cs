@@ -4,22 +4,25 @@
 
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public class ShootingComponent : MonoBehaviour {
-
-    public LayerMask ignoreMask;
+    
     public float chargeTime = 1f;
+    public float range = 25f;
     public float shakiness = 0.05f;
-    public float shakeDuration = 0.2f;
+    public float beamDuration = 0.2f;
     public ParticleSystem laserChargingParticle;
+    public LineRenderer laserLine;
 
     private CameraShake shaker;
 
-    public void Shoot(Vector3 direction, float maxDistance) {
-        StartCoroutine(ShootCoroutine(direction, maxDistance));
+    public void Shoot(Vector3 direction) {
+        StartCoroutine(ShootCoroutine(direction));
     }
 
-    private IEnumerator ShootCoroutine(Vector3 direction, float maxDistance) {
+    private IEnumerator ShootCoroutine(Vector3 direction) {
+        Assert.AreEqual(0, direction.z);
 
         // charge
         print("Charging...");
@@ -37,27 +40,32 @@ public class ShootingComponent : MonoBehaviour {
             timer += Time.deltaTime;
             yield return null;
         }
-
-        // fire laser
-        print("Fire!");
-
-        shaker.CameraShaker(main.duration / 5f, shakiness, Time.deltaTime);
-
+        
         // ray cast to see if hit
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, maxDistance, ~ (1 << gameObject.layer));
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, ~(1 << gameObject.layer));
         if (hit) {
             print("Hit " + hit.collider.name);
         }
+
+        // show laser beam
+        print("Fire!");
+
+        shaker.CameraShaker(beamDuration, shakiness, Time.deltaTime);
+        laserLine.SetPosition(0, transform.position);
+        laserLine.SetPosition(1, hit ? hit.transform.position : transform.position + direction * range);
+        laserLine.enabled = true;
+        yield return new WaitForSeconds(beamDuration);
+        laserLine.enabled = false;        
     }
 
     private void Start() {
-        laserChargingParticle = GetComponentInChildren<ParticleSystem>();
         shaker = GetComponentInChildren<CameraShake>();
     }
 
     private void OnValidate() {
         if (chargeTime < 0) chargeTime = 0;
+        if (range < 0) range = 0;
         if (shakiness < 0) shakiness = 0;
-        if (shakeDuration < 0) shakeDuration = 0;
+        if (beamDuration < 0) beamDuration = 0;
     }
 }

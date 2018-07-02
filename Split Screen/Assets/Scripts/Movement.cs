@@ -14,7 +14,7 @@ public class Movement : MonoBehaviour {
     public float normalSpeed = 15f;
     public float blinkSpeed = 30f;
     public float blinkTime = 0.5f;
-    public GameObject blinkEffect;
+    public ParticleSystem blinkEffect;
     public float shakiness = 0.05f;
 
     private Vector3 direction;
@@ -39,34 +39,29 @@ public class Movement : MonoBehaviour {
     }
 	
 	private void Update () {
-        if (mode == InputMode.Controller) {
-            if (Input.GetButtonDown(blinkButton) && !blink) {
-                print("Blink!");
-
-                // blink particle effect
-                if (blinkEffect != null) {
-                    GameObject particle = Instantiate(blinkEffect, transform.position, Quaternion.identity);
-                    ParticleSystem system = particle.GetComponent<ParticleSystem>();
-                    if (system != null) Destroy(particle, system.main.duration + system.main.startLifetime.Evaluate(0));
-
-                    shaker.CameraShaker(system.main.duration, shakiness, Time.deltaTime);
-                }
-
-                blink = true;
-            }
-        } else {
-
-        }
-
         direction = new Vector3(Input.GetAxisRaw(horizontalAxis), Input.GetAxisRaw(verticalAxis), 0).normalized;
         Vector3 velocity = (blink && blinkTimer < blinkTime) ? direction * blinkSpeed * Time.deltaTime : direction * normalSpeed * Time.deltaTime;
         transform.position += velocity;
+        
+        if (Input.GetButtonDown(blinkButton) && !blink) {
+            print("Blink!");
 
-        Debug.DrawRay(transform.position, direction, Color.red);
+            // blink particle effect
+            if (blinkEffect != null) {
+                blinkEffect.shape.rotation.Set(Vector2.SignedAngle(direction, Vector2.right) + 180, 90, 0); // doesn't work for some reason...
+                blinkEffect.Play();
+
+                shaker.CameraShaker(blinkEffect.main.duration, shakiness, Time.deltaTime);
+            }
+
+            blink = true;
+        }
+
+        //Debug.DrawRay(transform.position, direction, Color.red);
         if (Input.GetButtonDown(fireButton)) {
             print("Shoot!");
 
-            shooter.Shoot(direction, 100f);
+            if (direction != Vector3.zero) shooter.Shoot(direction);
          }
 
         if (blink) {
