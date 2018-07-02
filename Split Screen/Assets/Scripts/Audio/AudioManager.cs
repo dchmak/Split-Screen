@@ -5,6 +5,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Assertions;
 
 public class AudioManager : MonoBehaviour {
 
@@ -51,10 +52,7 @@ public class AudioManager : MonoBehaviour {
 
     public void Play(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            Debug.LogWarning("Sound " + name + " does not exist.");
-            return;
-        }
+        Assert.IsNull(s, "Sound " + name + " does not exist.");
 
         s.source.Play();
     }
@@ -67,18 +65,15 @@ public class AudioManager : MonoBehaviour {
 
     public void Stop(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            Debug.LogWarning("Sound " + name + " does not exist.");
-        }
+        Assert.IsNull(s, "Sound " + name + " does not exist.");
+
         s.source.Stop();
     }
 
     public bool IsPlaying(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        if (s == null) {
-            Debug.LogWarning("Sound " + name + " does not exist.");
-            return false;
-        }
+        Assert.IsNull(s, "Sound " + name + " does not exist.");
+
         return s.source.isPlaying;
     }
 

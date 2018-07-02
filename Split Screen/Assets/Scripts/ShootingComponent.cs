@@ -7,11 +7,15 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class ShootingComponent : MonoBehaviour {
-    
+
+    [Header("Statistcs")]
     public float chargeTime = 1f;
     public float range = 25f;
     public float shakiness = 0.05f;
     public float beamDuration = 0.2f;
+    public float damage = 1f;
+
+    [Header("Components")]
     public ParticleSystem laserChargingParticle;
     public LineRenderer laserLine;
 
@@ -40,22 +44,27 @@ public class ShootingComponent : MonoBehaviour {
             timer += Time.deltaTime;
             yield return null;
         }
-        
-        // ray cast to see if hit
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, ~(1 << gameObject.layer));
-        if (hit) {
-            print("Hit " + hit.collider.name);
-        }
 
-        // show laser beam
-        print("Fire!");
-
-        shaker.CameraShaker(beamDuration, shakiness, Time.deltaTime);
-        laserLine.SetPosition(0, transform.position);
-        laserLine.SetPosition(1, hit ? hit.transform.position : transform.position + direction * range);
+        timer = 0f;
         laserLine.enabled = true;
-        yield return new WaitForSeconds(beamDuration);
-        laserLine.enabled = false;        
+        while (timer < beamDuration) {
+            // ray cast to see if hit
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, range, ~(1 << gameObject.layer));
+            if (hit) {
+                print("Hit " + hit.collider.name);
+            }
+
+            // show laser beam
+            print("Fire!");
+
+            shaker.CameraShaker(beamDuration, shakiness, Time.deltaTime);
+            laserLine.SetPosition(0, transform.position);
+            laserLine.SetPosition(1, hit ? hit.transform.position : transform.position + direction * range);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        laserLine.enabled = false;
     }
 
     private void Start() {
@@ -67,5 +76,6 @@ public class ShootingComponent : MonoBehaviour {
         if (range < 0) range = 0;
         if (shakiness < 0) shakiness = 0;
         if (beamDuration < 0) beamDuration = 0;
+        if (damage < 0) damage = 0;
     }
 }

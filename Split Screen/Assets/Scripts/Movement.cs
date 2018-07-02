@@ -2,8 +2,6 @@
 * Created by Daniel Mak
 */
 
-using System.Collections;
-using UnityEditor;
 using UnityEngine;
 
 public enum InputMode { Keyboard, Controller };
@@ -11,13 +9,18 @@ public enum InputMode { Keyboard, Controller };
 public class Movement : MonoBehaviour {
 
     public InputMode mode;
+
+    [Header("Statistcs")]
     public float normalSpeed = 15f;
     public float blinkSpeed = 30f;
     public float blinkTime = 0.5f;
-    public ParticleSystem blinkEffect;
     public float shakiness = 0.05f;
 
+    [Header("Components")]
+    public ParticleSystem blinkEffect;
+
     private Vector3 direction;
+    private float angle;
     private string horizontalAxis, verticalAxis, blinkButton, fireButton;
     private bool blink;
     private float blinkTimer;
@@ -48,7 +51,8 @@ public class Movement : MonoBehaviour {
 
             // blink particle effect
             if (blinkEffect != null) {
-                blinkEffect.shape.rotation.Set(Vector2.SignedAngle(direction, Vector2.right) + 180, 90, 0); // doesn't work for some reason...
+                ParticleSystem.ShapeModule shape = blinkEffect.shape;
+                shape.rotation = new Vector3(Vector2.SignedAngle(direction, Vector2.right) + 180, 90, 0); // doesn't work for some reason...
                 blinkEffect.Play();
 
                 shaker.CameraShaker(blinkEffect.main.duration, shakiness, Time.deltaTime);
