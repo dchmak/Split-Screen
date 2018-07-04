@@ -25,7 +25,7 @@ public class Movement : MonoBehaviour {
     private string horizontalAxis, verticalAxis, blinkButton, fireButton;
     private bool blink;
     private float blinkTimer;
-    [SerializeField] private float blinkCooldownTimer;
+    private float blinkCooldownTimer;
     private CameraShake shaker;
     private Vector3 camOriginalPosition;
     private ShootingComponent shooter;
