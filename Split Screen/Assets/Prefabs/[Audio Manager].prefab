@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8766a5fcfe3efdc42ad7f0adbc5d3d9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  autoPlayFirst: 0
   sounds:
   - name: Test
     clip: {fileID: 8300000, guid: 8bd2dc9c51aa1f64b994aa0559bfaf6d, type: 3}

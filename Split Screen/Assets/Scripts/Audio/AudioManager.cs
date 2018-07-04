@@ -30,8 +30,6 @@ public class AudioManager : MonoBehaviour {
     }
     #endregion
 
-    public bool autoPlayFirst = false;
-
     [Space]
 
     public Sound[] sounds;
@@ -52,7 +50,7 @@ public class AudioManager : MonoBehaviour {
 
     public void Play(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        Assert.IsNull(s, "Sound " + name + " does not exist.");
+        Assert.IsNull(s, "Sound '" + name + "' does not exist.");
 
         s.source.Play();
     }
@@ -65,14 +63,14 @@ public class AudioManager : MonoBehaviour {
 
     public void Stop(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        Assert.IsNull(s, "Sound " + name + " does not exist.");
+        Assert.IsNull(s, "Sound '" + name + "' does not exist.");
 
         s.source.Stop();
     }
 
     public bool IsPlaying(string name) {
         Sound s = Array.Find(sounds, sound => sound.name == name);
-        Assert.IsNull(s, "Sound " + name + " does not exist.");
+        Assert.IsNull(s, "Sound '" + name + "' does not exist.");
 
         return s.source.isPlaying;
     }
@@ -95,7 +93,7 @@ public class AudioManager : MonoBehaviour {
             sound.source.loop = sound.loop;
         }
 
-        if (autoPlayFirst) Play(sounds[0].name);
+        //if (sounds[0].name == "test" || sounds[0].name == "Test") Play(sounds[0].name);
     }
 
     private void OnValidate() {

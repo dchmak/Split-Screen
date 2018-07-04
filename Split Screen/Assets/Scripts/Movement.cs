@@ -15,6 +15,7 @@ public class Movement : MonoBehaviour {
     public float blinkSpeed = 30f;
     public float blinkTime = 0.5f;
     public float shakiness = 0.05f;
+    public float blinkCooldown = 0.5f;
 
     [Header("Components")]
     public ParticleSystem blinkEffect;
@@ -24,6 +25,7 @@ public class Movement : MonoBehaviour {
     private string horizontalAxis, verticalAxis, blinkButton, fireButton;
     private bool blink;
     private float blinkTimer;
+    [SerializeField] private float blinkCooldownTimer;
     private CameraShake shaker;
     private Vector3 camOriginalPosition;
     private ShootingComponent shooter;
@@ -46,13 +48,13 @@ public class Movement : MonoBehaviour {
         Vector3 velocity = (blink && blinkTimer < blinkTime) ? direction * blinkSpeed * Time.deltaTime : direction * normalSpeed * Time.deltaTime;
         transform.position += velocity;
         
-        if (Input.GetButtonDown(blinkButton) && !blink) {
+        if (blinkCooldownTimer == 0 && Input.GetButtonDown(blinkButton) && !blink) {
             print("Blink!");
 
             // blink particle effect
             if (blinkEffect != null) {
                 ParticleSystem.ShapeModule shape = blinkEffect.shape;
-                shape.rotation = new Vector3(Vector2.SignedAngle(direction, Vector2.right) + 180, 90, 0); // doesn't work for some reason...
+                shape.rotation = new Vector3(Vector2.SignedAngle(direction, Vector2.right) + 180, 90, 0);
                 blinkEffect.Play();
 
                 shaker.CameraShaker(blinkEffect.main.duration, shakiness, Time.deltaTime);
@@ -75,7 +77,12 @@ public class Movement : MonoBehaviour {
         if (blinkTimer > blinkTime) {
             blink = false;
             blinkTimer = 0f;
+
+            blinkCooldownTimer = blinkCooldown;
         }
+
+        if (blinkCooldownTimer > 0) blinkCooldownTimer -= Time.deltaTime;
+        if (blinkCooldownTimer < 0) blinkCooldownTimer = 0;
     }
 
     private void OnValidate() {

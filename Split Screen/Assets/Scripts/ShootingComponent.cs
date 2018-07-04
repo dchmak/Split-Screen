@@ -18,11 +18,13 @@ public class ShootingComponent : MonoBehaviour {
     }
 
     private IEnumerator ShootCoroutine(Vector3 direction) {
+        if (laser.IsPlaying()) yield break;
+
         Assert.AreEqual(0, direction.z);
         
         float angle = Vector2.SignedAngle(direction, Vector2.right);
 
-        laser.Play(angle);
+        laser.PlayBeam(angle);
 
         // charge
         print("Charging...");
