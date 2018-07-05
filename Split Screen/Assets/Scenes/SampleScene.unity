@@ -4898,7 +4898,7 @@ RectTransform:
   - {fileID: 895409182}
   - {fileID: 95724258}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -4916,7 +4916,7 @@ GameObject:
   - component: {fileID: 77492762}
   - component: {fileID: 77492761}
   m_Layer: 9
-  m_Name: Square Spawn Glyph
+  m_Name: Square Spawn Base Glyph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9908,7 +9908,7 @@ GameObject:
   - component: {fileID: 253974313}
   - component: {fileID: 253974312}
   m_Layer: 9
-  m_Name: Circle Spawn Glyph
+  m_Name: Circle Spawn Base Glyph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14643,7 +14643,7 @@ Transform:
   m_Children:
   - {fileID: 921058584}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &384011695
 GameObject:
@@ -48010,7 +48010,7 @@ GameObject:
   - component: {fileID: 1297047896}
   - component: {fileID: 1297047895}
   m_Layer: 9
-  m_Name: Square Spawn Glyph (1)
+  m_Name: Square Spawn Glyph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52719,7 +52719,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1420107741}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 1492719778}
@@ -52728,7 +52728,7 @@ Transform:
   - {fileID: 1565805161}
   - {fileID: 1539547174}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1420107744
 MonoBehaviour:
@@ -52860,6 +52860,54 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!1 &1515838737
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1515838739}
+  - component: {fileID: 1515838738}
+  m_Layer: 9
+  m_Name: '[Game Manager]'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1515838738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1515838737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d4f3cc4602ca046a56e96f87889040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playersInfo:
+  - index: Controller Player
+    player: {fileID: 1815223668}
+    spawn: {fileID: 0}
+  - index: Keyboard Player
+    player: {fileID: 1420107741}
+    spawn: {fileID: 0}
+  readyToStart: 0
+--- !u!4 &1515838739
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1515838737}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1525120948
 GameObject:
   m_ObjectHideFlags: 0
@@ -52920,7 +52968,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1539547172
 GameObject:
@@ -53117,9 +53165,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1753205478}
+  - component: {fileID: 1753205479}
   m_Layer: 9
   m_Name: Keyboard Spawn
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53131,15 +53180,32 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1753205477}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
+  m_LocalPosition: {x: 15, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 77492760}
   - {fileID: 1297047894}
   - {fileID: 1024446202}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1753205479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1753205477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51aaaeccb7e4b2645b4f6b7b1043fdc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 10
+  glyphs:
+  - {fileID: 77492762}
+  - {fileID: 1297047896}
+  needles:
+  - {fileID: 1024446204}
 --- !u!1 &1815223668
 GameObject:
   m_ObjectHideFlags: 0
@@ -53180,7 +53246,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1815223668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_LocalPosition: {x: -2, y: 0, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children:
   - {fileID: 1164704532}
@@ -53189,7 +53255,7 @@ Transform:
   - {fileID: 116348583}
   - {fileID: 922415775}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1815223671
 MonoBehaviour:
@@ -53245,9 +53311,10 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1826548130}
+  - component: {fileID: 1826548131}
   m_Layer: 9
   m_Name: Controller Spawn
-  m_TagString: Untagged
+  m_TagString: Spawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -53259,15 +53326,32 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1826548129}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: 0}
+  m_LocalPosition: {x: -15, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 253974311}
   - {fileID: 1875360324}
   - {fileID: 384011696}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1826548131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1826548129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51aaaeccb7e4b2645b4f6b7b1043fdc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 10
+  glyphs:
+  - {fileID: 253974313}
+  - {fileID: 1875360326}
+  needles:
+  - {fileID: 384011698}
 --- !u!1 &1843719385
 GameObject:
   m_ObjectHideFlags: 0
@@ -62573,7 +62657,7 @@ GameObject:
   - component: {fileID: 1875360326}
   - component: {fileID: 1875360325}
   m_Layer: 9
-  m_Name: Circle Spawn Glyph (1)
+  m_Name: Circle Spawn Glyph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
