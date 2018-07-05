@@ -13,6 +13,8 @@ public class Health : MonoBehaviour {
     [Space]
     public Bar healthBar;
 
+    private GameManager gameManager;
+
     public void TakeDamage(float damage) {
         Assert.IsTrue(damage > 0);
 
@@ -29,6 +31,9 @@ public class Health : MonoBehaviour {
 
     private void Start () {
         health = maxHealth;
+
+        gameManager = GameManager.instance;        
+        gameManager.ReadyToStartEvent += OnReadyToStart;
     }
 
     private void LateUpdate() {
@@ -38,5 +43,9 @@ public class Health : MonoBehaviour {
     private void OnValidate() {
         if (maxHealth < 0) maxHealth = 0f;
         if (healthBar != null) healthBar.name = name + " Health Bar";
+    }
+
+    private void OnReadyToStart() {
+        healthBar.gameObject.SetActive(true);
     }
 }

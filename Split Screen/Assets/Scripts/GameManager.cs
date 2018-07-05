@@ -2,6 +2,7 @@
 * Created by Daniel Mak
 */
 
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -23,14 +24,24 @@ public class GameManager : MonoBehaviour {
 
     public PlayerInfo[] playersInfo;
 
-    [HideInInspector] public bool readyToStart;
+    public event Action ReadyToStartEvent;
+
+    private bool readyToStart;
 
     private void Update () {
+        if (!readyToStart) {
+            CheckIsReady();
+            if (readyToStart) {
+                if (ReadyToStartEvent != null) ReadyToStartEvent();
+            }
+        }
+    }
+
+    private void CheckIsReady() {
         readyToStart = true;
         foreach (PlayerInfo info in playersInfo) {
-            ParticleSystem.MainModule main = info.spawn.GetComponent<ParticleSystem>().main;
             if ((info.player.transform.position - info.spawn.transform.position).magnitude > info.spawn.size) {
-                print(info.player.name + " is outside the spawn!");
+                //print(info.player.name + " is outside the spawn!");
                 readyToStart = false;
             }
         }

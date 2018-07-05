@@ -40,7 +40,8 @@ public class ShootingComponent : MonoBehaviour {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, laser.range, ~(1 << gameObject.layer));
             if (hit) {
                 print("Hit " + hit.collider.name);
-                hit.transform.GetComponent<Health>().TakeDamage(laser.damage);
+                Health health = hit.transform.GetComponent<Health>();
+                health.TakeDamage(laser.damage);
             }
             
             timer += Time.deltaTime;

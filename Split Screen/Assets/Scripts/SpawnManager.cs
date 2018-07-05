@@ -9,6 +9,8 @@ public class SpawnManager : MonoBehaviour {
     public float size = 10f;
     public ParticleSystem[] glyphs;
     public ParticleSystem[] needles;
+
+    private GameManager gameManager;
     
     private void OnDrawGizmosSelected() {
         Gizmos.color = Color.red;
@@ -17,17 +19,24 @@ public class SpawnManager : MonoBehaviour {
         Gizmos.DrawWireSphere(transform.position, size);
     }
 
-    private void OnValidate() {
-        tag = "Spawn";
+    private void Start() {
+        gameManager = GameManager.instance;
+        gameManager.ReadyToStartEvent += OnReadyToStart;
+    }
 
+    private void OnValidate() {
         foreach (ParticleSystem glyph in glyphs) {
             ParticleSystem.MainModule main = glyph.main;
-            main.startSize = size;
+            main.startSize = size * 4f;
         }
 
         foreach (ParticleSystem needle in needles) {
             ParticleSystem.ShapeModule shape = needle.shape;
-            shape.radius = size / 4f;
+            shape.radius = size;
         }
+    }
+
+    private void OnReadyToStart() {
+        gameObject.SetActive(false);
     }
 }
