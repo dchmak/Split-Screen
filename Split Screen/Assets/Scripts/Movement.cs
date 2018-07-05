@@ -29,6 +29,7 @@ public class Movement : MonoBehaviour {
     private CameraShake shaker;
     private Vector3 camOriginalPosition;
     private ShootingComponent shooter;
+    private GameManager gameManager;
 
     private void Start () {
         horizontalAxis = mode.ToString() + " Horizontal";
@@ -41,6 +42,8 @@ public class Movement : MonoBehaviour {
 
         shaker = GetComponentInChildren<CameraShake>();
         shooter = GetComponent<ShootingComponent>();
+
+        gameManager = GameManager.instance;
     }
 	
 	private void Update () {
@@ -67,7 +70,7 @@ public class Movement : MonoBehaviour {
         if (Input.GetButtonDown(fireButton)) {
             print("Shoot!");
 
-            if (direction != Vector3.zero) shooter.Shoot(direction);
+            if (gameManager.canShoot && direction != Vector3.zero) shooter.Shoot(direction);
          }
 
         if (blink) {

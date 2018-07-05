@@ -8,7 +8,7 @@ public class SpawnManager : MonoBehaviour {
 
     public float size = 10f;
     public ParticleSystem[] glyphs;
-    public ParticleSystem[] needles;
+    public ParticleSystem[] addons;
 
     private GameManager gameManager;
     
@@ -30,13 +30,19 @@ public class SpawnManager : MonoBehaviour {
             main.startSize = size * 4f;
         }
 
-        foreach (ParticleSystem needle in needles) {
-            ParticleSystem.ShapeModule shape = needle.shape;
+        foreach (ParticleSystem addon in addons) {
+            ParticleSystem.ShapeModule shape = addon.shape;
             shape.radius = size;
         }
     }
 
     private void OnReadyToStart() {
-        gameObject.SetActive(false);
+        foreach (ParticleSystem glyph in glyphs) {
+            glyph.Stop();
+        }
+
+        foreach (ParticleSystem addon in addons) {
+            addon.Stop();
+        }
     }
 }

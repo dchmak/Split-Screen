@@ -3,6 +3,8 @@
 */
 
 using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
@@ -20,19 +22,29 @@ public class GameManager : MonoBehaviour {
         [ReadOnly] public string index;
         public GameObject player;
         public SpawnManager spawn;
+
+        [HideInInspector] public Health health;
     }
 
-    public PlayerInfo[] playersInfo;
-
     public event Action ReadyToStartEvent;
+    [HideInInspector] public bool canShoot = false;
 
-    private bool readyToStart;
+    public PlayerInfo[] playersInfo;
+    [Space]
+    public int startCountDown = 3;
+    public TextMeshProUGUI text;
+
+    private bool readyToStart = false;
+    private float deadPlayer = 0f;
 
     private void Update () {
         if (!readyToStart) {
             CheckIsReady();
             if (readyToStart) {
-                if (ReadyToStartEvent != null) ReadyToStartEvent();
+                if (ReadyToStartEvent != null) {
+                    StartCoroutine(CountDown(startCountDown));
+                    ReadyToStartEvent();
+                }
             }
         }
     }
@@ -47,11 +59,23 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    private IEnumerator CountDown(int count) {
+        while(count > 0) {
+            text.text = count.ToString();
+            count--;
+            yield return new WaitForSeconds(1);
+        }
+
+        text.text = "";
+        canShoot = true;
+    }
+
     private void OnValidate() {
         name = "[Game Manager]";
 
         foreach (PlayerInfo info in playersInfo) {
             info.index = info.player.name;
+            info.health = info.player.GetComponent<Health>();
         }
     }
 }

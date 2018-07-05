@@ -49,7 +49,7 @@ public class ShootingComponent : MonoBehaviour {
         }
     }
 
-    private void Awake() {
+    private void Start() {
         shaker = GetComponentInChildren<CameraShake>();
     }
 

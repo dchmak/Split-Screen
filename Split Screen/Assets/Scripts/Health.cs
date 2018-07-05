@@ -12,6 +12,8 @@ public class Health : MonoBehaviour {
 
     [Space]
     public Bar healthBar;
+    public Animator winText;
+    public Animator deadText; 
 
     private GameManager gameManager;
 
@@ -38,6 +40,10 @@ public class Health : MonoBehaviour {
 
     private void LateUpdate() {
         healthBar.SetValue(health / maxHealth);
+
+        if (health <= 0) {
+            deadText.Play("Win Lose Text Popup");
+        }
     }
 
     private void OnValidate() {
