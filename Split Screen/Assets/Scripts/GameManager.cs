@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
         public GameObject player;
         public SpawnManager spawn;
 
-        [HideInInspector] public Health health;
+        [HideInInspector] public HealthSystem health;
     }
 
     public event Action ReadyToStartEvent;
@@ -75,7 +75,7 @@ public class GameManager : MonoBehaviour {
 
         foreach (PlayerInfo info in playersInfo) {
             info.index = info.player.name;
-            info.health = info.player.GetComponent<Health>();
+            info.health = info.player.GetComponent<HealthSystem>();
         }
     }
 }

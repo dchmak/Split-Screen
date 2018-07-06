@@ -5,7 +5,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class Health : MonoBehaviour {
+public class HealthSystem : MonoBehaviour {
 
     public float maxHealth = 100f;
     [ReadOnly] [SerializeField] private float health;
@@ -31,9 +31,11 @@ public class Health : MonoBehaviour {
         if (health > maxHealth) health = maxHealth;
     }
 
-    private void Start () {
+    private void Awake() {
         health = maxHealth;
+    }
 
+    private void Start () {
         gameManager = GameManager.instance;        
         gameManager.ReadyToStartEvent += OnReadyToStart;
     }
@@ -42,6 +44,7 @@ public class Health : MonoBehaviour {
         healthBar.SetValue(health / maxHealth);
 
         if (health <= 0) {
+            gameObject.SetActive(false);
             deadText.Play("Win Lose Text Popup");
         }
     }

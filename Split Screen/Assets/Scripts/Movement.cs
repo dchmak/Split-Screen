@@ -30,6 +30,7 @@ public class Movement : MonoBehaviour {
     private Vector3 camOriginalPosition;
     private ShootingComponent shooter;
     private GameManager gameManager;
+    private HealthSystem health;
 
     private void Start () {
         horizontalAxis = mode.ToString() + " Horizontal";
@@ -44,13 +45,15 @@ public class Movement : MonoBehaviour {
         shooter = GetComponent<ShootingComponent>();
 
         gameManager = GameManager.instance;
+
+        health = GetComponent<HealthSystem>();
     }
 	
 	private void Update () {
         direction = new Vector3(Input.GetAxisRaw(horizontalAxis), Input.GetAxisRaw(verticalAxis), 0).normalized;
         Vector3 velocity = (blink && blinkTimer < blinkTime) ? direction * blinkSpeed * Time.deltaTime : direction * normalSpeed * Time.deltaTime;
         transform.position += velocity;
-        
+
         if (blinkCooldownTimer == 0 && Input.GetButtonDown(blinkButton) && !blink) {
             print("Blink!");
 
@@ -71,7 +74,7 @@ public class Movement : MonoBehaviour {
             print("Shoot!");
 
             if (gameManager.canShoot && direction != Vector3.zero) shooter.Shoot(direction);
-         }
+        }
 
         if (blink) {
             blinkTimer += Time.deltaTime;
