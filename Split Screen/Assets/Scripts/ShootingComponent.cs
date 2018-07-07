@@ -27,11 +27,11 @@ public class ShootingComponent : MonoBehaviour {
         laser.PlayBeam(angle);
 
         // charge
-        print("Charging...");
+        //print("Charging...");
         yield return new WaitForSeconds(laser.chargeTime);
 
         // shoot
-        print("Fire!");
+        //print("Fire!");
         shaker.CameraShaker(laser.beamDuration, shakiness, Time.deltaTime);
 
         float timer = 0f;
@@ -39,7 +39,7 @@ public class ShootingComponent : MonoBehaviour {
             // ray cast to see if hit
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, laser.range, ~(1 << gameObject.layer));
             if (hit) {
-                print("Hit " + hit.collider.name);
+                //print("Hit " + hit.collider.name);
                 HealthSystem health = hit.transform.GetComponent<HealthSystem>();
                 health.TakeDamage(laser.damage);
             }

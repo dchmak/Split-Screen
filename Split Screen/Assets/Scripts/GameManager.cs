@@ -20,10 +20,9 @@ public class GameManager : MonoBehaviour {
     [System.Serializable]
     public class PlayerInfo {
         [ReadOnly] public string index;
-        public GameObject player;
+        public Player player;
         public SpawnManager spawn;
-
-        [HideInInspector] public HealthSystem health;
+        public Popup popup;
     }
 
     public event Action ReadyToStartEvent;
@@ -37,7 +36,7 @@ public class GameManager : MonoBehaviour {
     private bool readyToStart = false;
     private float deadPlayer = 0f;
 
-    private void Update () {
+    private void Update() {
         if (!readyToStart) {
             CheckIsReady();
             if (readyToStart) {
@@ -46,6 +45,22 @@ public class GameManager : MonoBehaviour {
                     ReadyToStartEvent();
                 }
             }
+        }
+
+        int alive = playersInfo.Length;
+        Popup alivePopup = null;
+        foreach (PlayerInfo info in playersInfo) {
+            if (info.player.health.IsDead()) {
+                info.player.movement.enabled = false;
+                info.player.shoot.enabled = false;
+                info.popup.Display("Dead");
+                alive--;
+            } else {
+                alivePopup = info.popup;
+            }
+        }
+        if (alive == 1 && alivePopup != null) {
+            alivePopup.Display("Win");
         }
     }
 
@@ -72,10 +87,5 @@ public class GameManager : MonoBehaviour {
 
     private void OnValidate() {
         name = "[Game Manager]";
-
-        foreach (PlayerInfo info in playersInfo) {
-            info.index = info.player.name;
-            info.health = info.player.GetComponent<HealthSystem>();
-        }
     }
 }

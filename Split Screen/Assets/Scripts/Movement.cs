@@ -71,7 +71,7 @@ public class Movement : MonoBehaviour {
 
         //Debug.DrawRay(transform.position, direction, Color.red);
         if (Input.GetButtonDown(fireButton)) {
-            print("Shoot!");
+            //print("Shoot!");
 
             if (gameManager.canShoot && direction != Vector3.zero) shooter.Shoot(direction);
         }
