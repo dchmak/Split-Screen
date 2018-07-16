@@ -30,7 +30,7 @@ public class Movement : MonoBehaviour {
     private Vector3 camOriginalPosition;
     private ShootingComponent shooter;
     private GameManager gameManager;
-    private HealthComponent health;
+    private HealthSystem health;
 
     private void Start () {
         horizontalAxis = mode.ToString() + " Horizontal";
@@ -46,7 +46,7 @@ public class Movement : MonoBehaviour {
 
         gameManager = GameManager.instance;
 
-        health = GetComponent<HealthComponent>();
+        health = GetComponent<HealthSystem>();
     }
 	
 	private void Update () {

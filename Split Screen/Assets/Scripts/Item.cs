@@ -9,9 +9,7 @@ public class Item : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.tag == "Player") {
-            print(collision.name + " picked up an item.");
-            collision.GetComponent<PowerUpComponent>().PowerUp();
-            Destroy(gameObject);
+            print(collision.name + "picked up an item.");
         }        
     }
 }
