@@ -5,7 +5,7 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
-public class HealthSystem : MonoBehaviour {
+public class HealthComponent : MonoBehaviour {
 
     public float maxHealth = 100f;
     [ReadOnly] [SerializeField] private float health;
