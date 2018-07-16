@@ -8,11 +8,11 @@ public class Player : MonoBehaviour {
 
     [HideInInspector] public Movement movement;
     [HideInInspector] public ShootingComponent shoot;
-    [HideInInspector] public HealthSystem health;
+    [HideInInspector] public HealthComponent health;
 
 	private void Awake () {
         movement = GetComponent<Movement>();
         shoot = GetComponent<ShootingComponent>();
-        health = GetComponent<HealthSystem>();
+        health = GetComponent<HealthComponent>();
 	}
 }
