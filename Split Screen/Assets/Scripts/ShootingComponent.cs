@@ -7,7 +7,13 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 public class ShootingComponent : MonoBehaviour {
-    
+
+    [System.Serializable]
+    public class Key {
+        public string tag;
+        public Sprite sprite;
+    }
+
     public float shakiness = 0.05f;
     public LaserBeamController laser;
 
@@ -18,6 +24,7 @@ public class ShootingComponent : MonoBehaviour {
     }
 
     private IEnumerator ShootCoroutine(Vector3 direction) {
+
         if (laser.IsPlaying()) yield break;
 
         Assert.AreEqual(0, direction.z);
